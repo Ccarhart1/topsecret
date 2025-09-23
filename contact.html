@@ -59,6 +59,53 @@
                     <a href="https://www.tiktok.com/@ceecee.json" target="_blank" rel="noopener noreferrer"><img
                             src="socials/tiktok.png" alt="TikTok" class="h-9 w-9"></a>
                 </div>
+                <div class="mt-10 rounded-lg border p-4">
+                    <h2 class="text-lg font-medium">Use AI to draft message</h2>
+                    <p class="mt-2 text-gray-600">Describe what you want to say. Gemini will draft a short email you can
+                        copy.
+                    </p>
+                    <textarea id="ai-prompt" class="mt-3 w-full rounded-md border p-3" rows="4"
+                        placeholder="e.g., I want to collaborate on a small AI tool..."></textarea>
+                    <div class="mt-3 flex items-center gap-3">
+                        <button id="ai-draft"
+                            class="inline-flex items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-white text-sm font-medium hover:bg-white hover:text-gray-900 hover:border hover:border-black">Draft</button>
+                        <button id="ai-copy"
+                            class="inline-flex items-center justify-center rounded-md border px-4 py-2 text-sm font-medium hover:bg-gray-50">Copy</button>
+                        <span id="ai-status" class="text-sm text-gray-600"></span>
+                    </div>
+                    <textarea id="ai-output" class="mt-3 w-full rounded-md border p-3" rows="5"
+                        placeholder="Your AI draft will appear here..."></textarea>
+                    <script>
+                        (function () {
+                            const btn = document.getElementById('ai-draft');
+                            const copyBtn = document.getElementById('ai-copy');
+                            const promptEl = document.getElementById('ai-prompt');
+                            const outEl = document.getElementById('ai-output');
+                            const statusEl = document.getElementById('ai-status');
+                            const API_URL = 'https://ai-draft.calebcarhart.workers.dev';
+                            btn?.addEventListener('click', async () => {
+                                const prompt = promptEl.value.trim();
+                                if (!prompt) { statusEl.textContent = 'Please enter a prompt.'; return; }
+                                statusEl.textContent = 'Drafting...';
+                                try {
+                                    const res = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt }) });
+                                    const data = await res.json();
+                                    if (!res.ok) {
+                                        statusEl.textContent = data?.error || 'Error.';
+                                    } else {
+                                        outEl.value = data?.draft || '';
+                                        statusEl.textContent = 'Draft ready.';
+                                    }
+                                } catch (e) {
+                                    statusEl.textContent = 'Network error.';
+                                }
+                            });
+                            copyBtn?.addEventListener('click', async () => {
+                                try { await navigator.clipboard.writeText(outEl.value || ''); statusEl.textContent = 'Copied.'; } catch { }
+                            });
+                        })();
+                    </script>
+                </div>
             </section>
         </div>
         </div>

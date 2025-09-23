@@ -1,0 +1,18 @@
+name = "ai-draft"
+main = "src/index.js"
+compatibility_date = "2024-09-10"
+
+# Environment variables (can be overridden in Cloudflare dashboard)
+[vars]
+MINUTE_LIMIT = 3
+DAILY_LIMIT = 20
+MODEL = "gemini-2.0-flash"
+SYSTEM_PROMPT = "Return only the email text (plain text). Optional 'Subject:' line is allowed, then body. Draft the message TO Caleb Carhart (he is the recipient), not from him. Keep it under 120 words, friendly, one clear ask, simple sign-off. No preface, no meta, no markdown."
+
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "42c644263294436486fb40ed01491727"
+preview_id = "44b844f20a984d18b02b8398f1c5146c"
+
+
