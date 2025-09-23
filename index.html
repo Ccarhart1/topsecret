@@ -37,22 +37,12 @@
         .marquee:hover {
             animation-play-state: paused;
         }
-
-        .cursor-follower {
-            width: 240px;
-            height: 240px;
-            border-radius: 9999px;
-            background: radial-gradient(circle at 30% 30%, rgba(156, 163, 175, 0.55), rgba(75, 85, 99, 0.5) 60%, rgba(255, 255, 255, 0) 75%);
-            filter: blur(40px);
-            opacity: .75;
-            mix-blend-mode: multiply;
-            transition: transform 80ms linear;
-        }
     </style>
 </head>
 
-<body class="min-h-screen flex flex-col bg-white text-gray-900 antialiased">
-    <header class="fixed inset-x-0 top-0 z-50 px-6 py-4 bg-white/80 backdrop-blur">
+<body
+    class="min-h-screen flex flex-col bg-white text-gray-900 antialiased bg-[radial-gradient(circle_at_50%_150%,_var(--tw-gradient-stops))] from-pink-500/50 via-pink-500/20 to-transparent bg-fixed bg-no-repeat">
+    <header class="fixed inset-x-0 top-0 z-50 px-6 py-4 bg-transparent">
         <div class="mx-auto w-full max-w-3xl flex items-center justify-between">
             <a href="index.html" class="inline-flex items-center gap-2">
                 <img src="favicon.png" alt="Home" class="h-10 w-10 rounded">
@@ -63,9 +53,9 @@
                     class="inline-flex items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-white text-sm font-medium hover:bg-white hover:text-gray-900 hover:border hover:border-black active:bg-white active:text-gray-900 active:border active:border-black focus:outline-none focus-visible:ring focus-visible:ring-gray-600 focus-visible:ring-offset-2">Reach
                     out</a>
             </nav>
-            <button
+            <button id="open-menu-btn" aria-expanded="false"
                 class="sm:hidden inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-100"
-                aria-label="Open menu" onclick="document.getElementById('mnav').classList.toggle('hidden')">
+                aria-label="Open menu">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
                     <path fill-rule="evenodd"
                         d="M3.75 6.75A.75.75 0 014.5 6h15a.75.75 0 010 1.5h-15a.75.75 0 01-.75-.75zm0 5.25A.75.75 0 014.5 11h15a.75.75 0 010 1.5h-15A.75.75 0 013.75 12zm0 5.25a.75.75 0 01.75-.75h15a.75.75 0 010 1.5h-15a.75.75 0 01-.75-.75z"
@@ -73,13 +63,35 @@
                 </svg>
             </button>
         </div>
-        <div id="mnav" class="sm:hidden mx-auto w-full max-w-3xl px-6 pt-2 hidden">
-            <a class="mt-2 inline-flex items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-white text-sm font-medium hover:bg-gray-700 focus:outline-none focus-visible:ring focus-visible:ring-gray-600 focus-visible:ring-offset-2"
-                href="contact.html">Reach out</a>
+        <div id="menu-overlay"
+            class="sm:hidden fixed inset-0 z-50 hidden bg-white bg-[radial-gradient(circle_at_50%_150%,_var(--tw-gradient-stops))] from-pink-500/50 via-pink-500/20 to-transparent bg-fixed bg-no-repeat">
+            <div class="flex flex-col h-full">
+                <div class="flex items-center justify-between px-6 py-4">
+                    <a href="index.html" class="inline-flex items-center gap-2">
+                        <img src="favicon.png" alt="Home" class="h-10 w-10 rounded">
+                        <span class="sr-only">Home</span>
+                    </a>
+                    <button id="close-menu-btn"
+                        class="inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-100"
+                        aria-label="Close menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
+                            <path fill-rule="evenodd"
+                                d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+                <nav class="mt-4 flex-1 flex flex-col items-center justify-center gap-6 text-lg">
+                    <a href="index.html"
+                        class="inline-flex items-center justify-center rounded-md px-4 py-2 text-gray-900 hover:bg-gray-100">Home</a>
+                    <a href="contact.html"
+                        class="inline-flex items-center justify-center rounded-md bg-black px-5 py-3 text-white font-medium border border-black hover:bg-black hover:text-white active:bg-black active:text-white">Reach
+                        out</a>
+                </nav>
+            </div>
         </div>
     </header>
-    <div id="cursor-follower" class="hidden fixed top-0 left-0 z-40 pointer-events-none cursor-follower"
-        style="transform: translate3d(-9999px, -9999px, 0);"></div>
+
     <main class="flex-1 px-6 pt-20">
         <div class="mx-auto w-full max-w-3xl">
             <section class="py-20 sm:py-28">
@@ -96,8 +108,8 @@
                 <h2 class="text-xl font-semibold">About Me</h2>
                 <p class="mt-4 text-gray-700">I focus on building with modern AI tools, automation systems, custom
                     agents, and creative media workflows. I’ve worked on projects ranging from browser-based games to
-                    recruiting automations.
-                    operations and expand creative possibilities. Right now I'm exploring products at the edge of AI and
+                    recruiting automations, and expanding creative possibilitiies. Right now I'm exploring products at
+                    the edge of AI and
                     storytelling while finishing my business degree.</p>
             </section>
 
@@ -106,47 +118,86 @@
                 <div class="mt-4 overflow-hidden">
                     <div class="marquee" aria-hidden="false">
                         <ul class="flex items-center gap-3 whitespace-nowrap">
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Python</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Google Colab</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Cursor</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Replit</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Figma</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">ComfyUI</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Google Flow</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Google Veo</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">n8n</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Make</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Hugging Face</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Gemini CLI</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Google Opal</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Ollama</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Pinecone</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Neo4j</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Runway</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Suno</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">ElevenLabs</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Python</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Google Colab</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Cursor</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Replit</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Figma</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                ComfyUI</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Google Flow</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Google Veo</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">n8n
+                            </li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">Make
+                            </li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Hugging Face</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Gemini CLI</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Google Opal</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Ollama</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Pinecone</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Neo4j</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Runway</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">Suno
+                            </li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                ElevenLabs</li>
                         </ul>
                         <ul class="flex items-center gap-3 whitespace-nowrap" aria-hidden="true">
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Python</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Google Colab</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Cursor</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Replit</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Figma</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">ComfyUI</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Google Flow</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">n8n</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Make</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Hugging Face</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Gemini CLI</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Google Opal</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Ollama</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Pinecone</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Neo4j</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Runway</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Suno</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">ElevenLabs</li>
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Github</li>\
-                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">HeyGen</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Python</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Google Colab</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Cursor</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Replit</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Figma</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                ComfyUI</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Google Flow</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">n8n
+                            </li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">Make
+                            </li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Hugging Face</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Gemini CLI</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Google Opal</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Ollama</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Pinecone</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Neo4j</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Runway</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">Suno
+                            </li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                ElevenLabs</li>
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                Github</li>\
+                            <li class="inline-flex items-center rounded-full border border-black px-4 py-2 text-sm">
+                                HeyGen</li>
                         </ul>
                     </div>
                 </div>
@@ -155,35 +206,40 @@
             <section class="py-10">
                 <h2 class="text-xl font-semibold">In the Lab</h2>
                 <div class="mt-8 grid gap-8 sm:gap-4 sm:grid-cols-3 sm:items-stretch">
+                    <!-- Card 1 -->
                     <div class="relative pt-8 sm:pt-10 flex sm:flex-col">
-                        <div
-                            class="absolute -top-4 sm:-top-6 left-0 w-full rounded-lg bg-black text-white px-3 pt-2 pb-5 sm:pb-5 text-base font-medium">
+                        <!-- Company label: transparent bg, black border except bottom, black text, full width, no bottom border -->
+                        <div class="absolute -top-4 sm:-top-6 left-0 w-full rounded-t-lg text-black px-3 pt-2 pb-5 sm:pb-5 text-base font-medium border-x border-t border-black bg-transparent z-20"
+                            style="border-bottom: none; left: 0; right: 0;">
                             Tactical Affairs
                         </div>
+                        <!-- Main card: transparent bg, black border, normal -->
                         <div
-                            class="relative z-10 w-full rounded-lg border bg-white p-4 shadow-sm -mt-2 sm:-mt-6 sm:flex-1 flex flex-col">
+                            class="relative z-10 w-full rounded-b-lg border border-black p-4 shadow-sm -mt-2 sm:-mt-6 sm:flex-1 flex flex-col bg-transparent">
                             <h3 class="text-base font-medium">Business Manager</h3>
                             <p class="mt-2 text-gray-600">Helping build the future of shooting entertainment.</p>
                         </div>
                     </div>
+                    <!-- Card 2 -->
                     <div class="relative pt-8 sm:pt-10 flex sm:flex-col">
-                        <div
-                            class="absolute -top-4 sm:-top-6 left-0 w-full rounded-lg bg-black text-white px-3 pt-2 pb-5 sm:pb-5 text-base font-medium">
+                        <div class="absolute -top-4 sm:-top-6 left-0 w-full rounded-t-lg text-black px-3 pt-2 pb-5 sm:pb-5 text-base font-medium border-x border-t border-black bg-transparent z-20"
+                            style="border-bottom: none; left: 0; right: 0;">
                             Soul Stories
                         </div>
                         <div
-                            class="relative z-10 w-full rounded-lg border bg-white p-4 shadow-sm -mt-2 sm:-mt-6 sm:flex-1 flex flex-col">
+                            class="relative z-10 w-full rounded-b-lg border border-black p-4 shadow-sm -mt-2 sm:-mt-6 sm:flex-1 flex flex-col bg-transparent">
                             <h3 class="text-base font-medium">Business Partner</h3>
                             <p class="mt-2 text-gray-600">Exploring the preservation of our loved ones through AI.</p>
                         </div>
                     </div>
+                    <!-- Card 3 -->
                     <div class="relative pt-8 sm:pt-10 flex sm:flex-col">
-                        <div
-                            class="absolute -top-4 sm:-top-6 left-0 w-full rounded-lg bg-black text-white px-3 pt-2 pb-5 sm:pb-5 text-base font-medium">
+                        <div class="absolute -top-4 sm:-top-6 left-0 w-full rounded-t-lg text-black px-3 pt-2 pb-5 sm:pb-5 text-base font-medium border-x border-t border-black bg-transparent z-20"
+                            style="border-bottom: none; left: 0; right: 0;">
                             University of Washington
                         </div>
                         <div
-                            class="relative z-10 w-full rounded-lg border bg-white p-4 shadow-sm -mt-2 sm:-mt-6 sm:flex-1 flex flex-col">
+                            class="relative z-10 w-full rounded-b-lg border border-black p-4 shadow-sm -mt-2 sm:-mt-6 sm:flex-1 flex flex-col bg-transparent">
                             <h3 class="text-base font-medium">Student</h3>
                             <p class="mt-2 text-gray-600">Wrapping up final year of B.S. in Business Administration at
                                 Milgard School of Business.
@@ -192,42 +248,44 @@
                     </div>
                 </div>
             </section>
-
-            <section class="py-10">
-                <h2 class="text-xl font-semibold">My Journey</h2>
-                <ul class="mt-4 space-y-3 text-gray-700">
-                    <li>
-                        <span class="font-medium">Benesys</span> <span class="text-gray-500">▸ Assistant Plan
-                            Associate</span><br>
-                        Organized and maintained plan administration data.
-                    </li>
-                    <li>
-                        <span class="font-medium">Sound Credit Union</span> <span class="text-gray-500">▸ Universal
-                            Associate</span><br>
-                        Improved day-to-day member support.
-                    </li>
-                    <li>
-                        <span class="font-medium">Renewal by Andersen</span> <span class="text-gray-500">▸ Event
-                            Marketer</span><br>
-                        Brought new clients on board in outside sales.
-                    </li>
-                    <li>
-                        <span class="font-medium">Door Dash</span> <span class="text-gray-500">▸ Driver</span><br>
-                        Ensured food was delivered on time and in good condition.
-                    </li>
-                    <li>
-                        <span class="font-medium">Burlington</span> <span class="text-gray-500">▸ Retail
-                            Supervisor</span><br>
-                        Led high-output retail teams and developed leadership under pressure.
-                    </li>
-                    <li>
-                        <span class="font-medium">Chipotle</span> <span class="text-gray-500">▸ Crew Member</span><br>
-                        Kept operations moving during busy service hours.
-                    </li>
-
-
-
-                </ul>
+            <h2 class="text-xl font-semibold">My Journey</h2>
+            <ol class="mt-6 relative border-l border-black">
+                <li class="ml-6 mb-6">
+                    <span class="absolute -left-1.5 mt-1.5 h-3 w-3 rounded-full bg-black border border-white"></span>
+                    <h3 class="font-medium">Benesys <span class="text-gray-500">▸ Assistant Plan
+                            Associate</span>
+                    </h3>
+                    <p class="mt-1 text-gray-700">Organized and maintained plan administration data.</p>
+                </li>
+                <li class="ml-6 mb-6">
+                    <span class="absolute -left-1.5 mt-1.5 h-3 w-3 rounded-full bg-black border border-white"></span>
+                    <h3 class="font-medium">Sound Credit Union <span class="text-gray-500">▸ Universal
+                            Associate</span></h3>
+                    <p class="mt-1 text-gray-700">Improved day-to-day member support.</p>
+                </li>
+                <li class="ml-6 mb-6">
+                    <span class="absolute -left-1.5 mt-1.5 h-3 w-3 rounded-full bg-black border border-white"></span>
+                    <h3 class="font-medium">Renewal by Andersen <span class="text-gray-500">▸ Event Marketer</span>
+                    </h3>
+                    <p class="mt-1 text-gray-700">Brought new clients on board in outside sales.</p>
+                </li>
+                <li class="ml-6 mb-6">
+                    <span class="absolute -left-1.5 mt-1.5 h-3 w-3 rounded-full bg-black border border-white"></span>
+                    <h3 class="font-medium">Door Dash <span class="text-gray-500">▸ Driver</span></h3>
+                    <p class="mt-1 text-gray-700">Ensured food was delivered on time and in good condition.</p>
+                </li>
+                <li class="ml-6 mb-6">
+                    <span class="absolute -left-1.5 mt-1.5 h-3 w-3 rounded-full bg-black border border-white"></span>
+                    <h3 class="font-medium">Burlington <span class="text-gray-500">▸ Retail Supervisor</span></h3>
+                    <p class="mt-1 text-gray-700">Led high-output retail teams and developed leadership under
+                        pressure.</p>
+                </li>
+                <li class="ml-6">
+                    <span class="absolute -left-1.5 mt-1.5 h-3 w-3 rounded-full bg-black border border-white"></span>
+                    <h3 class="font-medium">Chipotle <span class="text-gray-500">▸ Crew Member</span></h3>
+                    <p class="mt-1 text-gray-700">Kept operations moving during busy service hours.</p>
+                </li>
+            </ol>
             </section>
 
             <section class="py-10">
@@ -235,15 +293,15 @@
                 <p class="mt-2 text-gray-600">Click the lie.</p>
                 <div class="mt-4 space-y-3">
                     <button data-lie="false"
-                        class="w-full text-left rounded-lg border px-4 py-3 hover:bg-gray-900 hover:text-white">I
+                        class="w-full text-left rounded-lg border border-black px-4 py-3 hover:bg-gray-900 hover:text-white">I
                         once was promoted then demoted in the same week due to being promoted prior to me turning
                         18.</button>
                     <button data-lie="true"
-                        class="w-full text-left rounded-lg border px-4 py-3 hover:bg-gray-900 hover:text-white">I
+                        class="w-full text-left rounded-lg border border-black px-4 py-3 hover:bg-gray-900 hover:text-white">I
                         have
                         a pet llama that knows how to skateboard.</button>
                     <button data-lie="false"
-                        class="w-full text-left rounded-lg border px-4 py-3 hover:bg-gray-900 hover:text-white">The
+                        class="w-full text-left rounded-lg border border-black px-4 py-3 hover:bg-gray-900 hover:text-white">The
                         most jobs I've had at one time was 3.</button>
                 </div>
                 <p id="truth-result" class="mt-3 text-sm text-gray-600"></p>
@@ -268,37 +326,30 @@
                 </script>
             </section>
 
-            <script>
-                (function () {
-                    const follower = document.getElementById('cursor-follower');
-                    if (!follower) return;
-                    const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-                    const isDesktop = window.innerWidth >= 768; // Tailwind md breakpoint
-                    if (!isFinePointer || !isDesktop) return;
-                    follower.classList.remove('hidden');
-                    let x = -9999, y = -9999, tx = -9999, ty = -9999;
-                    const speed = 0.12;
-                    window.addEventListener('mousemove', (e) => { x = e.clientX; y = e.clientY; });
-                    function raf() {
-                        tx += (x - tx) * speed;
-                        ty += (y - ty) * speed;
-                        const half = follower.offsetWidth / 2 || 120;
-                        follower.style.transform = `translate3d(${tx - half}px, ${ty - half}px, 0)`;
-                        requestAnimationFrame(raf);
-                    }
-                    raf();
-                })();
-            </script>
+
 
 
         </div>
     </main>
-    <footer class="py-10 text-center text-sm text-gray-500 border-t">Caleb Carhart · <a
-            class="underline hover:no-underline" href="mailto:calebcarhart1110@gmail.com">calebcarhart1110@gmail.com</a>
+    <footer class="py-10 text-center text-sm text-gray-500">Caleb Carhart · <a class="underline hover:no-underline"
+            href="mailto:calebcarhart1110@gmail.com">calebcarhart1110@gmail.com</a>
         · <a class="underline hover:no-underline" href="https://calebcarh.art" target="_blank"
             rel="noopener noreferrer">calebcarh.art</a>
-        <a class="py-10 text-center text-sm text-gray-500 border-t"> · Seattle, WA</a>
+        · Seattle, WA
     </footer>
+    <script>
+        (function () {
+            const overlay = document.getElementById('menu-overlay');
+            const openBtn = document.getElementById('open-menu-btn');
+            const closeBtn = document.getElementById('close-menu-btn');
+            function openMenu() { overlay?.classList.remove('hidden'); document.body.classList.add('overflow-hidden'); openBtn?.setAttribute('aria-expanded', 'true'); }
+            function closeMenu() { overlay?.classList.add('hidden'); document.body.classList.remove('overflow-hidden'); openBtn?.setAttribute('aria-expanded', 'false'); }
+            openBtn?.addEventListener('click', openMenu);
+            closeBtn?.addEventListener('click', closeMenu);
+            overlay?.addEventListener('click', (e) => { if (e.target === overlay) closeMenu(); });
+            window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+        })();
+    </script>
 </body>
 
 </html>
