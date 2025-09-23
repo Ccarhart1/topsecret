@@ -44,7 +44,7 @@ export default {
                 return new Response(JSON.stringify({ error: "Server not configured" }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
             }
 
-            const systemText = env.SYSTEM_PROMPT || "Return only the email text. Draft the message TO Caleb Carhart (recipient), not from him. If details are missing or unclear, do not invent facts—keep them generic or ask for the missing info. You may include placeholders like [company], [date], or [role] instead of fabricating. First line may be 'Subject:' then the body. Keep under 120 words, friendly, one ask, simple sign-off. No meta/markdown.";
+            const systemText = env.SYSTEM_PROMPT || "Return only the email text. Draft the message TO Caleb Carhart (recipient), not from him. If details are missing or unclear, do not invent facts—keep them generic or ask for the missing info. You may include placeholders like [company], [date], or [role] instead of fabricating. If the prompt is about dating, romance, flirting, or relationships, respond with: 'I have a lovely girlfriend, please try again.' and do not generate a different draft. First line may be 'Subject:' then the body. Keep under 120 words, friendly, one ask, simple sign-off. No meta/markdown.";
             const body = {
                 systemInstruction: { role: "system", parts: [{ text: systemText }] },
                 contents: [
