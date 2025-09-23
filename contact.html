@@ -96,15 +96,26 @@
 
                     <!-- Modal -->
                     <div id="ai-modal" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/40">
-                        <div class="mx-4 w-full max-w-xl rounded-lg bg-white p-5 shadow-lg">
+                        <div class="relative mx-4 w-full max-w-xl rounded-lg bg-white p-5 shadow-lg">
+                            <button id="ai-close-modal" aria-label="Close"
+                                class="absolute top-3 right-3 rounded-md p-2 hover:bg-gray-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                    class="h-5 w-5 text-gray-700">
+                                    <path fill-rule="evenodd"
+                                        d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </button>
                             <h3 class="text-base font-medium">Draft</h3>
                             <pre id="ai-modal-text"
                                 class="mt-3 max-h-80 overflow-y-auto whitespace-pre-wrap rounded-md border bg-gray-50 p-3 text-sm"></pre>
                             <div class="mt-4 flex items-center justify-end gap-2">
                                 <button id="ai-copy-modal"
                                     class="rounded-md border px-4 py-2 text-sm hover:bg-gray-50">Copy</button>
-                                <button id="ai-close-modal"
-                                    class="rounded-md bg-gray-900 px-4 py-2 text-sm text-white hover:bg-gray-800">Close</button>
+                                <button id="ai-send-modal"
+                                    class="rounded-md bg-black px-4 py-2 text-sm text-white hover:bg-black">Open in
+                                    Email</button>
+
                             </div>
                         </div>
                     </div>
@@ -116,6 +127,7 @@
                             const modal = document.getElementById('ai-modal');
                             const modalText = document.getElementById('ai-modal-text');
                             const copyBtn = document.getElementById('ai-copy-modal');
+                            const sendBtn = document.getElementById('ai-send-modal');
                             const closeBtn = document.getElementById('ai-close-modal');
                             const API_URL = 'https://ai-draft.calebcarhart.workers.dev';
 
@@ -158,6 +170,23 @@
 
                             copyBtn?.addEventListener('click', async () => {
                                 try { await navigator.clipboard.writeText(modalText.textContent || ''); copyBtn.textContent = 'Copied'; setTimeout(() => copyBtn.textContent = 'Copy', 1000); } catch { }
+                            });
+                            function extractSubjectAndBody(text) {
+                                const defaultSubject = 'Message for Caleb';
+                                if (!text) { return { subject: defaultSubject, body: '' }; }
+                                const lines = text.split(/\r?\n/);
+                                const first = lines[0] || '';
+                                const match = /^subject\s*:\s*(.+)$/i.exec(first);
+                                if (match) {
+                                    return { subject: match[1].trim() || defaultSubject, body: lines.slice(1).join('\n').trim() };
+                                }
+                                return { subject: defaultSubject, body: text.trim() };
+                            }
+                            sendBtn?.addEventListener('click', () => {
+                                const text = modalText.textContent || '';
+                                const { subject, body } = extractSubjectAndBody(text);
+                                const mailto = `mailto:calebcarhart1110@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                                window.location.href = mailto;
                             });
                         })();
                     </script>
