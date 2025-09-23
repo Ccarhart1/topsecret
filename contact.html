@@ -13,8 +13,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="min-h-screen flex flex-col bg-white text-gray-900 antialiased">
-    <header class="fixed inset-x-0 top-0 z-50 px-6 py-4 bg-white/80 backdrop-blur">
+<body
+    class="min-h-screen flex flex-col bg-white text-gray-900 antialiased bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-pink-500/50 via-pink-500/20 to-transparent">
+    <header class="fixed inset-x-0 top-0 z-50 px-6 py-4 bg-transparent">
         <div class="mx-auto w-full max-w-3xl flex items-center justify-between">
             <a href="index.html" class="inline-flex items-center gap-2">
                 <img src="favicon.png" alt="Home" class="h-10 w-10 rounded">
@@ -59,49 +60,81 @@
                     <a href="https://www.tiktok.com/@ceecee.json" target="_blank" rel="noopener noreferrer"><img
                             src="socials/tiktok.png" alt="TikTok" class="h-9 w-9"></a>
                 </div>
-                <div class="mt-10 rounded-lg border p-4">
-                    <h2 class="text-lg font-medium">Use AI to draft message</h2>
-                    <p class="mt-2 text-gray-600">Describe what you want to say. Gemini will draft a short email you can
-                        copy.
-                    </p>
-                    <textarea id="ai-prompt" class="mt-3 w-full rounded-md border p-3" rows="4"
-                        placeholder="e.g., I want to collaborate on a small AI tool..."></textarea>
-                    <div class="mt-3 flex items-center gap-3">
+                <div class="mt-10 rounded-lg p-4 bg-transparent">
+                    <h2 class="text-lg font-medium text-center">Use AI to Draft a Message</h2>
+                    <textarea id="ai-prompt"
+                        class="mt-3 w-full rounded-md p-3 bg-transparent border text-black placeholder-black resize-none overflow-hidden"
+                        rows="1" placeholder="Describe what you want to say..."></textarea>
+                    <div class="mt-3 flex justify-center">
                         <button id="ai-draft"
-                            class="inline-flex items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-white text-sm font-medium hover:bg-white hover:text-gray-900 hover:border hover:border-black">Draft</button>
-                        <button id="ai-copy"
-                            class="inline-flex items-center justify-center rounded-md border px-4 py-2 text-sm font-medium hover:bg-gray-50">Copy</button>
-                        <span id="ai-status" class="text-sm text-gray-600"></span>
+                            class="mx-auto inline-flex items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-white text-sm font-medium hover:bg-white hover:text-gray-900 hover:border hover:border-black">Create
+                            Draft</button>
                     </div>
-                    <textarea id="ai-output" class="mt-3 w-full rounded-md border p-3" rows="5"
-                        placeholder="Your AI draft will appear here..."></textarea>
+
+                    <!-- Modal -->
+                    <div id="ai-modal" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/40">
+                        <div class="mx-4 w-full max-w-xl rounded-lg bg-white p-5 shadow-lg">
+                            <h3 class="text-base font-medium">Draft</h3>
+                            <pre id="ai-modal-text"
+                                class="mt-3 max-h-80 overflow-y-auto whitespace-pre-wrap rounded-md border bg-gray-50 p-3 text-sm"></pre>
+                            <div class="mt-4 flex items-center justify-end gap-2">
+                                <button id="ai-copy-modal"
+                                    class="rounded-md border px-4 py-2 text-sm hover:bg-gray-50">Copy</button>
+                                <button id="ai-close-modal"
+                                    class="rounded-md bg-gray-900 px-4 py-2 text-sm text-white hover:bg-gray-800">Close</button>
+                            </div>
+                        </div>
+                    </div>
+
                     <script>
                         (function () {
                             const btn = document.getElementById('ai-draft');
-                            const copyBtn = document.getElementById('ai-copy');
                             const promptEl = document.getElementById('ai-prompt');
-                            const outEl = document.getElementById('ai-output');
-                            const statusEl = document.getElementById('ai-status');
+                            const modal = document.getElementById('ai-modal');
+                            const modalText = document.getElementById('ai-modal-text');
+                            const copyBtn = document.getElementById('ai-copy-modal');
+                            const closeBtn = document.getElementById('ai-close-modal');
                             const API_URL = 'https://ai-draft.calebcarhart.workers.dev';
+
+                            function openModal(text) {
+                                modalText.textContent = text || '';
+                                modal.classList.remove('hidden');
+                                modal.classList.add('flex');
+                            }
+                            function closeModal() {
+                                modal.classList.add('hidden');
+                                modal.classList.remove('flex');
+                            }
+                            modal?.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+                            closeBtn?.addEventListener('click', closeModal);
+
+                            // auto-resize input to fit content
+                            function autoSize(el) { el.style.height = 'auto'; el.style.height = el.scrollHeight + 'px'; }
+                            promptEl?.addEventListener('input', () => autoSize(promptEl));
+                            autoSize(promptEl);
+
                             btn?.addEventListener('click', async () => {
+                                const original = btn.textContent;
                                 const prompt = promptEl.value.trim();
-                                if (!prompt) { statusEl.textContent = 'Please enter a prompt.'; return; }
-                                statusEl.textContent = 'Drafting...';
+                                if (!prompt) { openModal('Please enter a prompt.'); return; }
+                                btn.textContent = 'Drafting…'; btn.disabled = true;
                                 try {
                                     const res = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt }) });
                                     const data = await res.json();
                                     if (!res.ok) {
-                                        statusEl.textContent = data?.error || 'Error.';
+                                        openModal(data?.error || 'Error.');
                                     } else {
-                                        outEl.value = data?.draft || '';
-                                        statusEl.textContent = 'Draft ready.';
+                                        openModal((data?.draft || '').trim());
                                     }
                                 } catch (e) {
-                                    statusEl.textContent = 'Network error.';
+                                    openModal('Network error.');
+                                } finally {
+                                    btn.textContent = original; btn.disabled = false;
                                 }
                             });
+
                             copyBtn?.addEventListener('click', async () => {
-                                try { await navigator.clipboard.writeText(outEl.value || ''); statusEl.textContent = 'Copied.'; } catch { }
+                                try { await navigator.clipboard.writeText(modalText.textContent || ''); copyBtn.textContent = 'Copied'; setTimeout(() => copyBtn.textContent = 'Copy', 1000); } catch { }
                             });
                         })();
                     </script>
@@ -109,7 +142,7 @@
             </section>
         </div>
         </div>
-        <footer class="mt-auto py-10 text-center text-sm text-gray-500 border-t w-full">
+        <footer class="mt-auto py-10 text-center text-sm text-gray-500 w-full">
             Caleb Carhart ·
             <a class="underline hover:no-underline"
                 href="mailto:calebcarhart1110@gmail.com">calebcarhart1110@gmail.com</a>
