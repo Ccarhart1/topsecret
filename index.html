@@ -5,8 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Caleb Carhart</title>
-    <link rel="icon" href="favicon.png?v=2" type="image/png" sizes="180x180">
-    <link rel="icon" href="favicon.ico?v=2">
+    <link rel="icon" href="favicon.ico">
     <meta property="og:title" content="Caleb Carhart">
     <meta property="og:description" content="A concise personal site. Replace with real description.">
     <meta property="og:type" content="website">
@@ -17,74 +16,289 @@
     <meta name="twitter:description" content="A concise personal site. Replace with real description.">
     <meta name="twitter:image" content="https://calebcarh.art/og-image.png">
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes marquee {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        .marquee {
+            display: flex;
+            gap: .75rem;
+            width: max-content;
+            animation: marquee 30s linear infinite;
+        }
+
+        .marquee:hover {
+            animation-play-state: paused;
+        }
+
+        .cursor-follower {
+            width: 240px;
+            height: 240px;
+            border-radius: 9999px;
+            background: radial-gradient(circle at 30% 30%, rgba(156, 163, 175, 0.55), rgba(75, 85, 99, 0.5) 60%, rgba(255, 255, 255, 0) 75%);
+            filter: blur(40px);
+            opacity: .75;
+            mix-blend-mode: multiply;
+            transition: transform 80ms linear;
+        }
+    </style>
 </head>
 
 <body class="min-h-screen flex flex-col bg-white text-gray-900 antialiased">
-    <main class="flex-1 px-6">
+    <header class="fixed inset-x-0 top-0 z-50 px-6 py-4 bg-white/80 backdrop-blur">
+        <div class="mx-auto w-full max-w-3xl flex items-center justify-between">
+            <a href="index.html" class="inline-flex items-center gap-2">
+                <img src="favicon.png" alt="Home" class="h-10 w-10 rounded">
+                <span class="sr-only">Home</span>
+            </a>
+            <nav class="hidden sm:flex items-center gap-4">
+                <a href="contact.html"
+                    class="inline-flex items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-white text-sm font-medium hover:bg-white hover:text-gray-900 hover:border hover:border-black active:bg-white active:text-gray-900 active:border active:border-black focus:outline-none focus-visible:ring focus-visible:ring-gray-600 focus-visible:ring-offset-2">Reach
+                    out</a>
+            </nav>
+            <button
+                class="sm:hidden inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-100"
+                aria-label="Open menu" onclick="document.getElementById('mnav').classList.toggle('hidden')">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
+                    <path fill-rule="evenodd"
+                        d="M3.75 6.75A.75.75 0 014.5 6h15a.75.75 0 010 1.5h-15a.75.75 0 01-.75-.75zm0 5.25A.75.75 0 014.5 11h15a.75.75 0 010 1.5h-15A.75.75 0 013.75 12zm0 5.25a.75.75 0 01.75-.75h15a.75.75 0 010 1.5h-15a.75.75 0 01-.75-.75z"
+                        clip-rule="evenodd" />
+                </svg>
+            </button>
+        </div>
+        <div id="mnav" class="sm:hidden mx-auto w-full max-w-3xl px-6 pt-2 hidden">
+            <a class="mt-2 inline-flex items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-white text-sm font-medium hover:bg-gray-700 focus:outline-none focus-visible:ring focus-visible:ring-gray-600 focus-visible:ring-offset-2"
+                href="contact.html">Reach out</a>
+        </div>
+    </header>
+    <div id="cursor-follower" class="hidden fixed top-0 left-0 z-40 pointer-events-none cursor-follower"
+        style="transform: translate3d(-9999px, -9999px, 0);"></div>
+    <main class="flex-1 px-6 pt-20">
         <div class="mx-auto w-full max-w-3xl">
             <section class="py-20 sm:py-28">
                 <h1 class="text-5xl sm:text-7xl font-extrabold tracking-tight leading-tight">Hi, I’m Caleb.</h1>
-                <p class="mt-4 text-lg text-gray-600">I’m optimizing for ______ in 2025.</p>
+                <p class="mt-4 text-lg text-gray-600">In the age of AI, being passive is not an option.</p>
+                <div class="mt-6">
+                    <a href="contact.html"
+                        class="inline-flex items-center justify-center rounded-md bg-gray-900 px-5 py-3 text-white font-medium hover:bg-white hover:text-gray-900 hover:border hover:border-black active:bg-white active:text-gray-900 active:border active:border-black focus:outline-none focus-visible:ring focus-visible:ring-gray-600 focus-visible:ring-offset-2">Reach
+                        out</a>
+                </div>
             </section>
 
             <section class="py-10">
-                <h2 class="text-xl font-semibold">Now / Next</h2>
-                <div class="mt-4 grid gap-4 sm:grid-cols-2">
-                    <div class="rounded-lg border p-4">
-                        <h3 class="font-medium">Now</h3>
-                        <p class="mt-2 text-gray-600">What I’m building now — short sentence.</p>
-                    </div>
-                    <div class="rounded-lg border p-4">
-                        <h3 class="font-medium">Next</h3>
-                        <p class="mt-2 text-gray-600">What I’m exploring next — short sentence.</p>
+                <h2 class="text-xl font-semibold">About Me</h2>
+                <p class="mt-4 text-gray-700">I focus on building with modern AI tools, automation systems, custom
+                    agents, and creative media workflows. I’ve worked on projects ranging from browser-based games to
+                    recruiting automations.
+                    operations and expand creative possibilities. Right now I'm exploring products at the edge of AI and
+                    storytelling while finishing my business degree.</p>
+            </section>
+
+            <section class="py-10">
+                <h2 class="text-xl font-semibold">Tools</h2>
+                <div class="mt-4 overflow-hidden">
+                    <div class="marquee" aria-hidden="false">
+                        <ul class="flex items-center gap-3 whitespace-nowrap">
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Python</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Google Colab</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Cursor</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Replit</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Figma</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">ComfyUI</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Google Flow</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Google Veo</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">n8n</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Make</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Hugging Face</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Gemini CLI</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Google Opal</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Ollama</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Pinecone</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Neo4j</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Runway</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Suno</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">ElevenLabs</li>
+                        </ul>
+                        <ul class="flex items-center gap-3 whitespace-nowrap" aria-hidden="true">
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Python</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Google Colab</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Cursor</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Replit</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Figma</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">ComfyUI</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Google Flow</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">n8n</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Make</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Hugging Face</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Gemini CLI</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Google Opal</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Ollama</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Pinecone</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Neo4j</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Runway</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Suno</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">ElevenLabs</li>
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">Github</li>\
+                            <li class="inline-flex items-center rounded-full border px-4 py-2 text-sm">HeyGen</li>
+                        </ul>
                     </div>
                 </div>
             </section>
 
             <section class="py-10">
-                <h2 class="text-xl font-semibold">Favorite problems</h2>
-                <div class="mt-4 flex flex-wrap gap-2">
-                    <span class="inline-flex items-center rounded-full border px-3 py-1 text-sm">Problem 1</span>
-                    <span class="inline-flex items-center rounded-full border px-3 py-1 text-sm">Problem 2</span>
-                    <span class="inline-flex items-center rounded-full border px-3 py-1 text-sm">Problem 3</span>
-                    <span class="inline-flex items-center rounded-full border px-3 py-1 text-sm">Problem 4</span>
-                    <span class="inline-flex items-center rounded-full border px-3 py-1 text-sm">Problem 5</span>
+                <h2 class="text-xl font-semibold">In the Lab</h2>
+                <div class="mt-8 grid gap-8 sm:gap-4 sm:grid-cols-3 sm:items-stretch">
+                    <div class="relative pt-8 sm:pt-10 flex sm:flex-col">
+                        <div
+                            class="absolute -top-4 sm:-top-6 left-0 w-full rounded-lg bg-black text-white px-3 pt-2 pb-5 sm:pb-5 text-base font-medium">
+                            Tactical Affairs
+                        </div>
+                        <div
+                            class="relative z-10 w-full rounded-lg border bg-white p-4 shadow-sm -mt-2 sm:-mt-6 sm:flex-1 flex flex-col">
+                            <h3 class="text-base font-medium">Business Manager</h3>
+                            <p class="mt-2 text-gray-600">Helping build the future of shooting entertainment.</p>
+                        </div>
+                    </div>
+                    <div class="relative pt-8 sm:pt-10 flex sm:flex-col">
+                        <div
+                            class="absolute -top-4 sm:-top-6 left-0 w-full rounded-lg bg-black text-white px-3 pt-2 pb-5 sm:pb-5 text-base font-medium">
+                            Soul Stories
+                        </div>
+                        <div
+                            class="relative z-10 w-full rounded-lg border bg-white p-4 shadow-sm -mt-2 sm:-mt-6 sm:flex-1 flex flex-col">
+                            <h3 class="text-base font-medium">Business Partner</h3>
+                            <p class="mt-2 text-gray-600">Exploring the preservation of our loved ones through AI.</p>
+                        </div>
+                    </div>
+                    <div class="relative pt-8 sm:pt-10 flex sm:flex-col">
+                        <div
+                            class="absolute -top-4 sm:-top-6 left-0 w-full rounded-lg bg-black text-white px-3 pt-2 pb-5 sm:pb-5 text-base font-medium">
+                            University of Washington
+                        </div>
+                        <div
+                            class="relative z-10 w-full rounded-lg border bg-white p-4 shadow-sm -mt-2 sm:-mt-6 sm:flex-1 flex flex-col">
+                            <h3 class="text-base font-medium">Student</h3>
+                            <p class="mt-2 text-gray-600">Wrapping up final year of B.S. in Business Administration at
+                                Milgard School of Business.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </section>
 
             <section class="py-10">
-                <h2 class="text-xl font-semibold">Tiny manifesto</h2>
-                <ul class="mt-4 space-y-2 list-disc list-inside text-gray-700">
-                    <li>Short, strong line one.</li>
-                    <li>Short, strong line two.</li>
-                    <li>Short, strong line three.</li>
-                    <li>Short, strong line four.</li>
-                    <li>Short, strong line five.</li>
+                <h2 class="text-xl font-semibold">My Journey</h2>
+                <ul class="mt-4 space-y-3 text-gray-700">
+                    <li>
+                        <span class="font-medium">Benesys</span> <span class="text-gray-500">▸ Assistant Plan
+                            Associate</span><br>
+                        Organized and maintained plan administration data.
+                    </li>
+                    <li>
+                        <span class="font-medium">Sound Credit Union</span> <span class="text-gray-500">▸ Universal
+                            Associate</span><br>
+                        Improved day-to-day member support.
+                    </li>
+                    <li>
+                        <span class="font-medium">Renewal by Andersen</span> <span class="text-gray-500">▸ Event
+                            Marketer</span><br>
+                        Brought new clients on board in outside sales.
+                    </li>
+                    <li>
+                        <span class="font-medium">Door Dash</span> <span class="text-gray-500">▸ Driver</span><br>
+                        Ensured food was delivered on time and in good condition.
+                    </li>
+                    <li>
+                        <span class="font-medium">Burlington</span> <span class="text-gray-500">▸ Retail
+                            Supervisor</span><br>
+                        Led high-output retail teams and developed leadership under pressure.
+                    </li>
+                    <li>
+                        <span class="font-medium">Chipotle</span> <span class="text-gray-500">▸ Crew Member</span><br>
+                        Kept operations moving during busy service hours.
+                    </li>
+
+
+
                 </ul>
             </section>
 
             <section class="py-10">
-                <h2 class="text-xl font-semibold">Proof</h2>
-                <ul class="mt-4 space-y-2 text-gray-700">
-                    <li>One-liner shipped thing #1.</li>
-                    <li>One-liner shipped thing #2.</li>
-                    <li>One-liner shipped thing #3.</li>
-                </ul>
+                <h2 class="text-xl font-semibold">2 Truths and a Lie</h2>
+                <p class="mt-2 text-gray-600">Click the lie.</p>
+                <div class="mt-4 space-y-3">
+                    <button data-lie="false"
+                        class="w-full text-left rounded-lg border px-4 py-3 hover:bg-gray-900 hover:text-white">I
+                        once was promoted then demoted in the same week due to being promoted prior to me turning
+                        18.</button>
+                    <button data-lie="true"
+                        class="w-full text-left rounded-lg border px-4 py-3 hover:bg-gray-900 hover:text-white">I
+                        have
+                        a pet llama that knows how to skateboard.</button>
+                    <button data-lie="false"
+                        class="w-full text-left rounded-lg border px-4 py-3 hover:bg-gray-900 hover:text-white">The
+                        most jobs I've had at one time was 3.</button>
+                </div>
+                <p id="truth-result" class="mt-3 text-sm text-gray-600"></p>
+                <script>
+                    (function () {
+                        const buttons = document.querySelectorAll('[data-lie]');
+                        const result = document.getElementById('truth-result');
+                        buttons.forEach(btn => {
+                            btn.addEventListener('click', () => {
+                                const isLie = btn.getAttribute('data-lie') === 'true';
+                                buttons.forEach(b => b.classList.remove('ring', 'ring-red-500', 'ring-green-500', 'bg-red-50', 'bg-green-50'));
+                                if (isLie) {
+                                    btn.classList.add('ring', 'ring-green-500', 'bg-green-50');
+                                    result.textContent = "Nice detective work... You've made it this far, might as well reach out.🥂";
+                                } else {
+                                    btn.classList.add('ring', 'ring-red-500', 'bg-red-50');
+                                    result.textContent = 'Not quite — that one\'s true.';
+                                }
+                            });
+                        });
+                    })();
+                </script>
             </section>
 
-            <section class="py-14">
-                <div class="rounded-lg border p-6 text-center">
-                    <h2 class="text-xl font-semibold">Pitch me in 3 sentences</h2>
-                    <a href="mailto:calebcarhart1110@gmail.com?subject=Pitch%20for%20Caleb"
-                        class="mt-4 inline-flex items-center justify-center rounded-md bg-blue-600 px-5 py-3 text-white font-medium hover:bg-blue-700 focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-offset-2">Email
-                        Caleb</a>
-                </div>
-            </section>
+            <script>
+                (function () {
+                    const follower = document.getElementById('cursor-follower');
+                    if (!follower) return;
+                    const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+                    const isDesktop = window.innerWidth >= 768; // Tailwind md breakpoint
+                    if (!isFinePointer || !isDesktop) return;
+                    follower.classList.remove('hidden');
+                    let x = -9999, y = -9999, tx = -9999, ty = -9999;
+                    const speed = 0.12;
+                    window.addEventListener('mousemove', (e) => { x = e.clientX; y = e.clientY; });
+                    function raf() {
+                        tx += (x - tx) * speed;
+                        ty += (y - ty) * speed;
+                        const half = follower.offsetWidth / 2 || 120;
+                        follower.style.transform = `translate3d(${tx - half}px, ${ty - half}px, 0)`;
+                        requestAnimationFrame(raf);
+                    }
+                    raf();
+                })();
+            </script>
+
+
         </div>
     </main>
-    <footer class="py-10 text-center text-sm text-gray-500 border-t">© 2025 Caleb Carhart · <a
-            class="underline hover:no-underline" href="https://calebcarh.art" target="_blank"
-            rel="noopener noreferrer">calebcarh.art</a></footer>
+    <footer class="py-10 text-center text-sm text-gray-500 border-t">Caleb Carhart · <a
+            class="underline hover:no-underline" href="mailto:calebcarhart1110@gmail.com">calebcarhart1110@gmail.com</a>
+        · <a class="underline hover:no-underline" href="https://calebcarh.art" target="_blank"
+            rel="noopener noreferrer">calebcarh.art</a>
+        <a class="py-10 text-center text-sm text-gray-500 border-t"> · Seattle, WA</a>
+    </footer>
 </body>
 
 </html>
